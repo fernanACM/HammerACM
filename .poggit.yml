@@ -1,0 +1,14 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/fernanACM/HammerACM
+build-by-default: true
+branches:
+- PM5
+projects:
+  HammerACM:
+    path: ""
+    icon: icon-hammeracm.png
+    libs:
+      - src: ACM-PocketMine-MP/libPiggyUpdateChecker/libPiggyUpdateChecker
+        version: ^2.0.0
+    lint:
+      phpstan: false
+...
