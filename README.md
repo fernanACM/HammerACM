@@ -5,7 +5,7 @@
 # HammerACM
 **A simple 3x3 pickaxe, for PocketMine-MP 5.0 servers**
 
-![icon-deviceacm](https://github.com/fernanACM/HammerACM/assets/83558341/18d63017-941e-4101-b0db-2583dced3ba4)
+![icon-hammeracm](https://github.com/fernanACM/HammerACM/assets/83558341/394178d6-0404-4520-93d9-9bd2b76e09e9)
 
 <a href="https://discord.gg/YyE9XFckqb"><img src="https://img.shields.io/discord/837701868649709568?label=discord&color=7289DA&logo=discord" alt="Discord" /></a>
 
