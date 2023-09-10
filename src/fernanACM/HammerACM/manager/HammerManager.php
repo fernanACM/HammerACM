@@ -81,6 +81,9 @@ class HammerManager{
      */
     private function addItem(Block $block): Item{
         switch($block->getTypeId()){
+            case VanillaBlocks::AIR()->getTypeId();
+            return VanillaItems::AIR();
+            
             case VanillaBlocks::GRASS()->getTypeId();
             return VanillaBlocks::DIRT()->asItem();
 
@@ -117,11 +120,11 @@ class HammerManager{
 
             case VanillaBlocks::REDSTONE_ORE()->getTypeId();
             case VanillaBlocks::DEEPSLATE_REDSTONE_ORE()->getTypeId();
-            return VanillaItems::REDSTONE_DUST()->setCount(mt_rand(2, 4));
+            return VanillaItems::REDSTONE_DUST()->setCount(mt_rand(2, 3));
 
             case VanillaBlocks::LAPIS_LAZULI_ORE()->getTypeId();
             case VanillaBlocks::DEEPSLATE_LAPIS_LAZULI_ORE()->getTypeId();
-            return VanillaItems::LAPIS_LAZULI()->setCount(mt_rand(2, 5));
+            return VanillaItems::LAPIS_LAZULI()->setCount(mt_rand(2, 3));
 
             case VanillaBlocks::EMERALD_ORE()->getTypeId();
             case VanillaBlocks::DEEPSLATE_EMERALD_ORE()->getTypeId();
