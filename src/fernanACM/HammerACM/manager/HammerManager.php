@@ -10,6 +10,7 @@
   
 namespace fernanACM\HammerACM\manager;
 
+use pocketmine\Server;
 use pocketmine\player\Player;
 
 use pocketmine\block\Block;
@@ -23,12 +24,17 @@ use pocketmine\item\enchantment\VanillaEnchantments;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\CompoundTag;
 
+use pocketmine\world\Position;
+
 use fernanACM\HammerACM\HammerACM;
 
 class HammerManager{
 
     /** @var HammerManager|null $instance */
     private static ?HammerManager $instance = null;
+
+    /** @var mixed $worldGuard */
+    private static mixed $worldGuard;
 
     /** @var array $blocks */
     private static array $blocks;
@@ -42,6 +48,16 @@ class HammerManager{
             VanillaBlocks::CRYING_OBSIDIAN()->getTypeId(), VanillaBlocks::GLOWING_OBSIDIAN()->getTypeId(),
             VanillaBlocks::REINFORCED_DEEPSLATE()->getTypeId()
         ];
+    }
+
+    /**
+     * @return void
+     */
+    public function initWorldGuard(): void{
+        if(!is_null(Server::getInstance()->getPluginManager()->getPlugin("WorldGuard"))){
+            self::$worldGuard = Server::getInstance()->getPluginManager()->getPlugin("WorldGuard");
+            HammerACM::getInstance()->getLogger()->notice("WorldGuard support enabled for HammerACM");
+        }
     }
 
     /**
@@ -162,6 +178,24 @@ class HammerManager{
         $item->addEnchantment(new EnchantmentInstance(VanillaEnchantments::UNBREAKING()));
         $item->setUnbreakable(true);
         return $item;
+    }
+
+    /**
+     * @param Position $position
+     * @return boolean
+     */
+    public function getWorldGuardProtection(Position $position): bool{
+        if(isset(self::$worldGuard)){
+            $result = true;
+            $region = self::$worldGuard->getRegionFromPosition($position);
+            if($region !== ""){
+                if($region->getFlag("block-break") === "false"){
+                    $result = false;
+                }
+            }
+            return $result;
+        }
+        return true;
     }
 
     /**

@@ -24,6 +24,8 @@ use pocketmine\event\block\BlockBreakEvent;
 
 use pocketmine\command\CommandSender;
 use pocketmine\command\Command;
+
+use pocketmine\world\Position;
 # Libs
 use DaPigGuy\libPiggyUpdateChecker\libPiggyUpdateChecker;
 # My files
@@ -55,6 +57,7 @@ class HammerACM extends PluginBase implements Listener{
     public function onEnable(): void{
         $this->loadCheck();
         $this->loadVirions();
+        HammerManager::getInstance()->initWorldGuard();
         Server::getInstance()->getPluginManager()->registerEvents($this, $this);
     }
 
@@ -131,9 +134,13 @@ class HammerACM extends PluginBase implements Listener{
     public function onBreak(BlockBreakEvent $event): void{
         $player = $event->getPlayer();
         $block = $event->getBlock();
+        $blockPosition = new Position($block->getPosition()->getX(), $block->getPosition()->getY(), $block->getPosition()->getZ(), $block->getPosition()->getWorld());
+        $playerPosition = new Position($player->getPosition()->getX(), $player->getPosition()->getY(), $player->getPosition()->getZ(), $player->getWorld());
         if(HammerManager::getInstance()->getWorldsEnabled($player)){
             if($player->getInventory()->getItemInHand()->equals(HammerManager::getInstance()->itemHammer($player)) && $player->hasPermission("hammeracm.use")){
-                HammerManager::getInstance()->actionHammer($block);
+                if(!HammerManager::getInstance()->getWorldGuardProtection($blockPosition) !== true && !HammerManager::getInstance()->getWorldGuardProtection($playerPosition) !== true){
+                    HammerManager::getInstance()->actionHammer($block);
+                }else $event->cancel();
             }
         }
     }
